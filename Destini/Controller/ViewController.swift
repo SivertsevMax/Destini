@@ -6,7 +6,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var storyText: UILabel!
     
     var storyBrain = StoryBrain()
-    var currentStorLine = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,22 +18,14 @@ class ViewController: UIViewController {
 
     @IBAction func choisedWay(_ sender: UIButton) {
         guard let choise = sender.currentTitle else { return }
-        
-        if choise == storyBrain.story[currentStorLine].choice1 {
-            currentStorLine = currentStorLine * 2 + 1
-            newQuestions(userChoise: currentStorLine)
-            print(currentStorLine)
-        } else {
-            currentStorLine = currentStorLine * 2 + 2
-            newQuestions(userChoise: currentStorLine)
-            print(currentStorLine)
-        }
+        update(userChoise: choise)
     }
     
-    func newQuestions(userChoise: Int) {
-        storyText.text = "\(storyBrain.story[userChoise].title)"
-        firstWay.setTitle("\(storyBrain.story[userChoise].choice1)", for: .normal)
-        secondWay.setTitle("\(storyBrain.story[userChoise].choice2)", for: .normal)
+    func update(userChoise: String) {
+        let newStory = storyBrain.nextStory(userChoise: userChoise)
+        storyText.text = "\(newStory.title)"
+        firstWay.setTitle("\(newStory.choice1)", for: .normal)
+        secondWay.setTitle("\(newStory.choice2)", for: .normal)
     }
 }
 
